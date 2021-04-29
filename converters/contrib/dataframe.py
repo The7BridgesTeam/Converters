@@ -63,7 +63,6 @@ class DataFrameToDictConverter(Converter):
 
     But cooler things can be achieved by nesting and using groupby:
 
-        >>> from utils.func import first
         >>> csv_str = 'col1,col2,col3\\n1, 1, 1\\n1, 1, 2\\n1, 2, 1'
         >>> class MyGroupByCol2Converter(DataFrameToDictConverter):
         ...     converter_copy_attrs = [

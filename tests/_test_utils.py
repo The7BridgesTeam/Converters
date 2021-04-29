@@ -1,6 +1,20 @@
 from collections.abc import Iterable
 from contextlib import contextmanager
+from copy import deepcopy
 from decimal import Decimal
+from difflib import unified_diff
+
+
+def ud(a, b):
+    try:
+        return list(unified_diff(a, b))
+    except TypeError:
+        # ud doesn't compare types well
+        return f'{unpack_to_str(a)} != {unpack_to_str(b)}'
+
+
+def unpack_to_str(list_to_unpack):
+    return '[{}]'.format(', '.join(map(str, list_to_unpack)))
 
 
 def assert_deep_pattern_match(a, b, stack=None, **opts):

@@ -14,23 +14,35 @@ Django = {version = ">=2.2", optional = true}
 Unidecode = {version = ">=1.2.0", optional = true}
 pandas = {version = ">=0.25.3", optional = true}
 django-countries = {version = ">=7.1", optional = true}
+py-moneyed = {version = ">=1.2", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = ">=6.2.2"
 syrupy = ">=1.2.2"
-pytest-django = "^4.2.0"
-pytest-mock = "^3.6.0"
+pytest-django = ">=4.2.0"
+pytest-mock = ">=3.6.0"
 
 [tool.poetry.extras]
 # ℹ️ if you update any of these, be sure to update "all = [...]" as well, so that it's easy to get
-# all dependencies for testing
+# all dependencies for testing. You can install any one of these sets using e.g.
+#   poetry install -E django_xml
 datetime = ["python-dateutil", "pytz"]
 django = ["Django", "django-countries"]
 django_xml = ["Django", "django-countries", "unidecode", "lxml"]
+moneyed = ["py-moneyed"]
 pandas = ["pandas"]
 xml = ["lxml"]
 
-all = ["Django", "django-countries", "lxml", "pandas", "python-dateutil", "pytz", "unidecode"]
+all = [
+    "Django",
+    "django-countries",
+    "lxml",
+    "pandas",
+    "python-dateutil",
+    "py-moneyed",
+    "pytz",
+    "unidecode"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
