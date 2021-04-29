@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "converters"
-version = "1.0.0"
+version = "0.1.0"
 description = "Write conversions between python objects using an expressive and declarative class-based API"
 authors = ["7bridges <os@the7bridges.com>"]
 
