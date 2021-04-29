@@ -56,7 +56,7 @@ class DjangoModelConverter(Converter):
             from_class = dict
             to_class = MyModel
 
-            converter_copy_attrs = [
+            conversions = [
                 ('a_file', {'file_extension': 'txt'}),
             ]
 
@@ -78,7 +78,7 @@ class DjangoModelConverter(Converter):
     Creating to-many relationships from to-many relationships is not automatically
     done, because often that's not what is wanted, and it can break existing
     relationships. If it is, then you can specify those fields in
-    `converter_copy_attrs` to enable them.
+    `conversions` to enable them.
 
     So for example:
 
@@ -108,7 +108,7 @@ class DjangoModelConverter(Converter):
         class DeepParentConverter(AutoDjangoModelConverter):
             from_class = ParentModel
             to_class = ParentModel
-            converter_copy_attrs = [
+            conversions = [
                 'children'
             ]
 
@@ -124,7 +124,7 @@ class DjangoModelConverter(Converter):
         class DeepParentConverter(AutoDjangoModelConverter):
             from_class = dict
             to_class = ParentModel
-            converter_copy_attrs = [
+            conversions = [
                 ('children', ChildConverter),
             ]
 

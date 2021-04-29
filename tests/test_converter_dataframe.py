@@ -9,7 +9,7 @@ from ._test_utils import assert_deep_pattern_match
 
 
 class ChildConverter(DataFrameToDictConverter):
-    converter_copy_attrs = [
+    conversions = [
         'child_value',
     ]
 
@@ -17,7 +17,7 @@ class ChildConverter(DataFrameToDictConverter):
 @pytest.fixture
 def converter_to_dict():
     class ConverterToDict(DataFrameToDictConverter):
-        converter_copy_attrs = [
+        conversions = [
             'id',
             'parent_value',
             ('children', {'groupby': 'child_id', 'converter': ChildConverter}),
@@ -38,7 +38,7 @@ def test_dataframe_to_dict_converter(converter_to_dict):
     df = pd.read_csv(StringIO(csv_data))
 
     # Add a test that missing columns get defaulted
-    converter_to_dict.converter_copy_attrs.append(('missing_column', NOS, 'missing column value'))
+    converter_to_dict.conversions.append(('missing_column', NOS, 'missing column value'))
 
     converted = converter_to_dict.convert(df)
     assert_deep_pattern_match(
@@ -70,7 +70,7 @@ def test_errors_out_if_duplicate_values_with_no_groupby(converter_to_dict):
 
 def test_csv_multiple_columns(snapshot):
     class MyConverter(DataFrameToDictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('cola', {'multiple_columns': True}),
             ('colb',),
         ]

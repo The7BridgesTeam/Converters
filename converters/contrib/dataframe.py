@@ -53,7 +53,7 @@ class DataFrameToDictConverter(Converter):
 
         >>> csv_str = 'col1,col2,col3\\n1, 2, 3\\n4,5,6\\n1, 3, 5'
         >>> class MyRowConverter(DataFrameToDictConverter):
-        ...     converter_copy_attrs = [('col1', int), ('col3', int)]
+        ...     conversions = [('col1', int), ('col3', int)]
         >>> MyRowConverter.convert_csv(csv_str)
         [{'col1': 1, 'col3': 3}, {'col1': 4, 'col3': 6}, {'col1': 1, 'col3': 5}]
 
@@ -65,7 +65,7 @@ class DataFrameToDictConverter(Converter):
 
         >>> csv_str = 'col1,col2,col3\\n1, 1, 1\\n1, 1, 2\\n1, 2, 1'
         >>> class MyGroupByCol2Converter(DataFrameToDictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('col2', int),
         ...         ('col3', {
         ...             'groupby': {'level': 0},
@@ -74,7 +74,7 @@ class DataFrameToDictConverter(Converter):
         ...         }),
         ...     ]
         >>> class MyCSVConverter(DataFrameToDictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('col1', int),
         ...         ('col2s', {
         ...             'groupby': 'col2', 'converter': MyGroupByCol2Converter,
@@ -86,7 +86,7 @@ class DataFrameToDictConverter(Converter):
     Note that we used `'dtype': int` explicitly for `'col3'` because `DataFrameToDictConverter`
     would not be able to deduce a dtype automatically from the converter `MyGroupByCol2Converter`.
 
-    ## Extra `converter_copy_attrs` options
+    ## Extra `conversions` options
 
     ### `'dtype'`
 
@@ -99,7 +99,7 @@ class DataFrameToDictConverter(Converter):
 
     ### `'extra_dtypes'`
 
-    If you need to reference columns in the dataframe that are not listed in `converter_copy_attrs`,
+    If you need to reference columns in the dataframe that are not listed in `conversions`,
     (for example in your converters) and they need to be something other than a string, then use
     this to specify their types.
     """

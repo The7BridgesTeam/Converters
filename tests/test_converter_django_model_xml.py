@@ -14,7 +14,7 @@ def test_model():
             app_label = 'django_app'
         field1 = CharField(max_length=128)
         field2 = CharField(max_length=128)
-        # By default shouldn't add these extra fields not defined in converter_copy_attrs (distinct
+        # By default shouldn't add these extra fields not defined in conversions (distinct
         # from the default behaviour in DjangoModelConverter)
         field3 = CharField(max_length=128)
 
@@ -27,7 +27,7 @@ def model_converter_to_xml(test_model):
         from_class = test_model
         to_class = etree._Element
 
-        converter_copy_attrs = [
+        conversions = [
             'field1',
             ('field2to', 'field2'),
         ]

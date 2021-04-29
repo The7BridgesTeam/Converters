@@ -12,7 +12,7 @@ from ._test_utils import assert_deep_pattern_match, nullcontext
 
 def test_converter_invalid_field_spec():
     class MyConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             # dictionary is not a valid value
             {},
         ]
@@ -29,7 +29,7 @@ def test_converter_auto_list_detection():
         from_class = EmptyClass
         to_class = EmptyClass
 
-        converter_copy_attrs = [
+        conversions = [
             ('attr1', {'reverse_attr_name': 'reverse_attr'}),
         ]
 
@@ -53,7 +53,7 @@ def test_converter_datetime():
         from_class = EmptyClass
         to_class = EmptyClass
 
-        converter_copy_attrs = [
+        conversions = [
             ('attr1', {'converter': 'datetime'}),
         ]
 
@@ -69,7 +69,7 @@ def converter_a():
         from_class = dict
         to_class = dict
 
-        converter_copy_attrs = [
+        conversions = [
             ('deep_attr', {'converter': 'ConverterA'}),
             ('numeric_attr', {'converter': lambda attr: attr * 2}),
             ('defaulted_attr', {'default': 'original'}),
@@ -187,7 +187,7 @@ def test_converter_update(converter_a):
 
 def test_converter_default_is_limited():
     class BadDefaultSingletonListConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('a', {'default': []}),
         ]
 
@@ -199,7 +199,7 @@ def test_converter_default_is_limited():
     )
 
     class BadDefaultSingletonDictConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('a', 'b', {'default': {}}),
         ]
 
@@ -216,7 +216,7 @@ def test_deep_converter_set():
         from_class = dict
         to_class = dict
 
-        converter_copy_attrs = [
+        conversions = [
             ('a', {'default': dict}),
             ('a.deep', {'default': dict}),
             ('a.deep.path', 'input_attr'),
@@ -234,7 +234,7 @@ def test_deep_converter_set():
 
 def test_converter_merge():
     class SubConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             'a',
             'b',
             'c',
@@ -245,7 +245,7 @@ def test_converter_merge():
         ]
 
     class TopConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('attr1', SubConverter),
             ('attr2', {'merge': True, 'converter': SubConverter}),
             ('attr_dict', {'merge': True, 'converter': SubConverter}),
@@ -267,7 +267,7 @@ def test_converter_merge():
 def test_converter_default_if_nos():
     class MyConverter(DictConverter):
         default_if_nos = 'hello world!'
-        converter_copy_attrs = [
+        conversions = [
             ('a', NOS),
         ]
 
@@ -276,7 +276,7 @@ def test_converter_default_if_nos():
 
 def test_single_val_filter():
     class MyConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('a', {'filter': lambda a: a % 2 != 0}),
         ]
 
@@ -293,7 +293,7 @@ def test_converter_should_handle_from_class_union_type():
         from_class = Union[dict, object]
         to_class = MyObject
 
-        converter_copy_attrs = ['a']
+        conversions = ['a']
 
     source_dict = {'a': 10}
     result_from_dict: MyObject = MyConverter.convert(source_dict)
@@ -311,7 +311,7 @@ def test_converter_should_handle_from_class_union_type_and_copy_to_destination()
         from_class = Union[dict, object]
         to_class = object
 
-        converter_copy_attrs = ['a']
+        conversions = ['a']
 
     class MyObject(object):
         def __init__(self):
@@ -350,7 +350,7 @@ def test_converter_should_handle_from_class_union_type_subclasses():
         from_class = Union[dict, MyObject]
         to_class = MyToObject
 
-        converter_copy_attrs = ['a']
+        conversions = ['a']
 
     source = MyChildObject()
     source.a = 15
@@ -368,7 +368,7 @@ def test_converter_should_raise_exception_on_union_to_class():
         from_class = dict
         to_class = Union[dict, object]
 
-        converter_copy_attrs = ['a']
+        conversions = ['a']
 
     source = {'a': 10}
 
@@ -390,7 +390,7 @@ def test_converter_should_raise_exception_on_union_to_class():
 )
 def test_converter_required_option(source, should_raise_exception):
     class MyConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             ('must_be_present', {'required': True}),
             ('must_be_non_none', {'required': lambda x: x is not None}),
             ('optional', {'required': False}),
@@ -402,7 +402,7 @@ def test_converter_required_option(source, should_raise_exception):
 
 def test_converter_sort():
     class SortExampleConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             'no_sort',
             ('nums', {'sort': True}),
             ('dicts', {'sort': itemgetter('name')}),
@@ -427,7 +427,7 @@ def test_converter_sort():
 
 def test_converter_context(snapshot):
     class MySubConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             'not_from_context',
             'from_context',
             ('val1', 'from_built_context.val1'),
@@ -441,7 +441,7 @@ def test_converter_context(snapshot):
             return cval * val
 
     class MyConverter(DictConverter):
-        converter_copy_attrs = [
+        conversions = [
             'from_context',
             'overridden_by_source',
             ('subs', MySubConverter),

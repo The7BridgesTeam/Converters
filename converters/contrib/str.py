@@ -17,7 +17,7 @@ class StrConverter(Converter):
 
         >>> class MyStrConverter(StrConverter):
         ...     from_class = dict
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         'attr1',
         ...         # this one takes its value from 'attr2' and uses None as the to_attr
         ...         # since obviously you can't set attributes on strings.

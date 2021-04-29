@@ -59,7 +59,7 @@ class XMLConverter(Converter):
         >>> class MyXMLConverter(XMLConverter):
         ...     from_class = dict
         ...     root_key = 'document'
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('h1', 'heading'),
         ...         ('h1.class', 'heading_class', {'xml_type': 'attr'}),
         ...         ('element', 'elements'),

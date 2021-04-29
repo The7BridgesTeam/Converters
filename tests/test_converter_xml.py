@@ -9,19 +9,19 @@ from ._test_utils import assert_deep_pattern_match
 
 class PackageFromXMLConverter(XMLConverter):
     to_class = dict
-    converter_copy_attrs = [
+    conversions = [
         'weight',
     ]
 
 
 class PackageToXMLConverter(XMLConverter):
     from_class = dict
-    converter_copy_attrs = [
+    conversions = [
         'weight',
     ]
 
 
-shared_converter_copy_attrs = [
+shared_conversions = [
     ('consignment.reference', 'reference'),
     (
         'consignment.consignmentIdentity.attr1',
@@ -31,7 +31,7 @@ shared_converter_copy_attrs = [
     ('consignment.consignmentIdentity.attr2', NOS, ({'xml_type': 'attr', 'default': 'use'}),),
     ('consignment.consignmentIdentity.consignmentNumber', 'number'),
     ('consignment.consignmentIdentity.textValue', NOS, {'default': 'textval'}),
-    # Write out longhand so converter_copy_attrs for converter_from_xml works simply
+    # Write out longhand so conversions for converter_from_xml works simply
     (
         'consignment.consignmentIdentity.emptyValue',
         'consignment.consignmentIdentity.emptyValue',
@@ -48,8 +48,8 @@ def converter_to_xml():
         from_class = dict
         root_key = 'labelResponse'
 
-        converter_copy_attrs = [
-            *shared_converter_copy_attrs,
+        conversions = [
+            *shared_conversions,
             ('consignment.package', 'packages', PackageToXMLConverter),
         ]
 
@@ -69,8 +69,8 @@ def converter_to_xml_without_cdata():
         converter_options = {
             'use_cdata': False,
         }
-        converter_copy_attrs = [
-            *shared_converter_copy_attrs,
+        conversions = [
+            *shared_conversions,
             ('consignment.package', 'packages', PackageToXMLConverter),
         ]
 
@@ -86,10 +86,10 @@ def converter_from_xml():
     class ConverterFromXML(XMLConverter):
         to_class = dict
 
-        converter_copy_attrs = [
+        conversions = [
             *[
                 (k[1], k[0], k[2] if len(k) > 2 else {})
-                for k in shared_converter_copy_attrs
+                for k in shared_conversions
                 if k[1] != NOS
             ],
             (

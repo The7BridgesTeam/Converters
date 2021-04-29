@@ -66,7 +66,7 @@ class Converter:
         ...     from_class = dict
         ...     to_class = dict
         ...
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         'a',                            # to['a'] = from['a']
         ...         ('b', 'a'),                     # to['b'] = from['a']
         ...         ('c', NOS, 'a default'),        # to['c'] = 'a default'
@@ -103,7 +103,7 @@ class Converter:
         >>> class AnObjectConverter(Converter):
         ...     from_class = AClass
         ...     to_class = AClass
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('a', lambda a: a * 2)          # to.a = from_.a
         ...     ]
         >>> an_inst = AClass()
@@ -122,7 +122,7 @@ class Converter:
         ...     from_class = Union[dict, object]
         ...     to_class = dict
         ...
-        ...     converter_copy_attrs = ['a']
+        ...     conversions = ['a']
         ...
         >>> MyConverter.convert({'a': 10})['a']
         10
@@ -132,12 +132,12 @@ class Converter:
     Using Union on `to_class` is forbidden, as it would be not possible to choose a destination
     type.
 
-    ### `converter_copy_attrs`
+    ### `conversions`
 
-    The `converter_copy_attrs` provide flexibility of what to copy, to where
+    The `conversions` provide flexibility of what to copy, to where
     and how to do so. The following forms are equivalent:
 
-        converter_copy_attrs = [
+        conversions = [
             'a',
             ('a',),
             ('a', lambda x: x),
@@ -171,11 +171,11 @@ class Converter:
     Simply specify the value you are passing to the `context` key-word attribute:
 
         >>> class MySubConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         'from_context',
         ...     ]
         >>> class MyConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         'from_context',
         ...         ('subs', MySubConverter),
         ...     ]
@@ -220,7 +220,7 @@ class Converter:
 
     ## List of converter copy attribute options
 
-        converter_copy_attrs = [
+        conversions = [
             ('attr', {<OPTIONS>}),
         ]
 
@@ -300,7 +300,7 @@ class Converter:
         ...     from_class = dict
         ...     to_class = type('AdHocClass', (), {})
         ...
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         'attr1',
         ...         ('attr1_alternative',),
         ...         ('renamed_attr', 'attr2'),
@@ -366,7 +366,7 @@ class Converter:
         ...     from_class = type('AdHocClass', (), {})
         ...     to_class = from_class
         ...
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('obj_attr', {'reverse_attr_name': 'reverse_attr'}),
         ...     ]
         >>> aa = MyConverter.from_class()
@@ -386,7 +386,7 @@ class Converter:
     It returns True to include a value and False not to.
 
         >>> class FilteredConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('bigger_than_ten', 'numbers', {'filter': lambda p: p > 10}),
         ...     ]
 
@@ -402,7 +402,7 @@ class Converter:
     collection.
 
         >>> class MapExampleConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('mapped', lambda col: col * 2),
         ...         ('unmapped', {'converter': lambda col: col * 2, 'map': False})
         ...     ]
@@ -423,7 +423,7 @@ class Converter:
     (e.g. they may need to take account of escaped characters)
 
         >>> class TruncatedConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('truncated_string', 'string', {'max_len': 10}),
         ...         ('truncated_list', 'list', {'max_len': 2}),
         ...     ]
@@ -445,7 +445,7 @@ class Converter:
     subsequent converter logic will work consistently.
 
         >>> class PluralizingConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('pluralize_me', {'pluralize': True}),
         ...         ('and_me', {'pluralize': True}),
         ...     ]
@@ -467,7 +467,7 @@ class Converter:
         >>> from operator import itemgetter
 
         >>> class SortExampleConverter(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('nums', {'sort': True}),
         ...         ('dicts', {'sort': itemgetter('name')})
         ...     ]
@@ -503,7 +503,7 @@ class Converter:
         ...         'convert_nones_to_blanks': True,
         ...         'include_nones': False,
         ...     }
-        ...     converter_copy_attrs = [('to_attr', 'from_attr')]
+        ...     conversions = [('to_attr', 'from_attr')]
 
     Empty dictionary because `"include_nones"` is not set:
 
@@ -522,7 +522,7 @@ class Converter:
     `"include_empty_strings"` now set, and `"convert_nones_to_blanks"` inherited from `MyConverter`:
 
         >>> class MySubclass1Converter(MyConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('to_attr', 'from_attr'),
         ...         ('to_attr_none', 'from_attr_none'),
         ...         ('to_attr_valued', 'from_attr_valued'),
@@ -556,7 +556,7 @@ class Converter:
         >>> from numbers import Number
         >>> from unidecode import unidecode
         >>> class MyStrWasher(DictConverter):
-        ...     converter_copy_attrs = [
+        ...     conversions = [
         ...         ('attr1', {'max_len': 17}),
         ...         'num_attr',
         ...     ]
@@ -612,7 +612,7 @@ class Converter:
 
     def dynamic_copy_attrs(self):
         """Returns list of form [(to_attr_name, from_attr_name, opts)]"""
-        converter_attrs = clone_deep(getattr(self, 'converter_copy_attrs', []))
+        converter_attrs = clone_deep(getattr(self, 'conversions', []))
 
         # TODO: Deprecate in favour of using defaults
         additional_attrs = [
@@ -943,7 +943,7 @@ class Converter:
 
     def _normalized_dynamic_copy_attrs(self):
         """Generates (to_attr_name, from_attr_name, opts) tuples from
-        the class's `converter_copy_attrs` list.
+        the class's `conversions` list.
         """
         return list(self.normalize_copy_attrs(self.dynamic_copy_attrs()))
 

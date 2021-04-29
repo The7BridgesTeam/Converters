@@ -25,7 +25,7 @@ def test_model_copier(test_model):
         from_class = test_model
         to_class = test_model
 
-        converter_copy_attrs = [
+        conversions = [
             # this overrides the default behaviour for field2
             ('field2', {'converter': lambda x: x + ' extra'})
         ]
@@ -50,7 +50,7 @@ def test_django_converter_convert_file_field():
         from_class = dict
         to_class = DjangoModelConverterTestModel
 
-        converter_copy_attrs = [
+        conversions = [
             'a_file',
         ]
 
@@ -82,7 +82,7 @@ def test_django_converter_convert_file_field_with_extension(extension, filename_
         from_class = dict
         to_class = DjangoModelConverterTestModel
 
-        converter_copy_attrs = [
+        conversions = [
             ('a_file', {'file_extension': extension}),
         ]
 
@@ -114,7 +114,7 @@ def test_parent_child_deep_conversion():
     class DeepParentConverter(AutoDjangoModelConverter):
         from_class = DMCTestParentModel
         to_class = DMCTestParentModel
-        converter_copy_attrs = ['children']
+        conversions = ['children']
 
     parent = DMCTestParentModel.objects.create(parent_text='This is the parent text')
     DjangoModelConverterTestModel.objects.create(parent=parent, child_text='Child 1 text')
@@ -139,7 +139,7 @@ def test_parent_child_deep_copy_conversion():
     class DeepCopyingParentConverter(AutoDjangoModelConverter):
         from_class = DMCTestParentModel
         to_class = DMCTestParentModel
-        converter_copy_attrs = [
+        conversions = [
             ('children', ChildConverter),
         ]
 
