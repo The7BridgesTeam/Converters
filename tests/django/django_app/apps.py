@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class DjangoAppConfig(AppConfig):
-    name = 'django_app'
+    name = 'tests.django.django_app'

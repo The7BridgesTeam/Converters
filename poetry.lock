@@ -371,7 +371,7 @@ xml = ["lxml"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6.1"
-content-hash = "ad63611609917c5cf29c33d7364f1371b771db013dede4e8d2366c1f864ef34a"
+content-hash = "9a4c0e229e8a712076c0ca54319d7bfa29df4f6732f64ab8e4f8fbced3c9c3da"
 
 [metadata.files]
 asgiref = [

@@ -77,7 +77,8 @@ WSGI_APPLICATION = 'django_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # str the path as django 2 doesn't take Path objects
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
