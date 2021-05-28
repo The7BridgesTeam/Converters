@@ -1,0 +1,26 @@
+# https://docs.gitlab.com/ee/ci/yaml/README.html
+
+variables:
+  COMMIT_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+stages:
+  - build
+  - test
+
+
+
+poetry-base:
+  image: docker.io/docker:20.10
+  stage: build
+  script:
+    - env
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin 2>/dev/null
+# - poetry install
+
+pytest-base:
+  needs:
+    - poetry-base
+  timeout: 5m
+  stage: test
+  script:
+    - poetry run pytest
