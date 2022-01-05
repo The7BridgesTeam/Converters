@@ -1,0 +1,40 @@
+IN_VERSIONS=0
+
+base_toml=$1
+version_file=$2
+output_file=$3
+
+if [[ -z $output_file ]]
+then
+    echo "Usage: $0 <base TOML file> <optional requirements file> <output file>" >&2
+    exit 1
+fi
+
+for file in "$base_toml" "$version_file"
+do
+    if [[ ! -e $file ]]
+    then
+        echo "No such file $base_toml" >&2
+        exit 1
+    fi
+done
+
+cat "$base_toml" |
+while read line
+do
+    if [[ $line == "# TEST VERSIONS INSERTION POINT" ]]
+    then
+        cat "$version_file"
+        IN_VERSIONS=1
+    else
+        if (( IN_VERSIONS ))
+        then
+            if [[ $line == "# TEST VERSIONS INSERTION POINT END" ]]
+            then
+                IN_VERSIONS=0
+            fi
+            continue
+        fi
+        echo "$line"
+    fi
+done >./"$output_file"
