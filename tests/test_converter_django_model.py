@@ -5,7 +5,7 @@ from pytest import param
 
 from converters.contrib.django_model import AutoDjangoModelConverter
 
-from .django.django_app.models import DjangoModelConverterTestModel, DMCTestParentModel
+from django_app.models import DjangoModelConverterTestModel, DMCTestParentModel
 
 
 @pytest.fixture
