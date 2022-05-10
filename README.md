@@ -1,4 +1,6 @@
-### Overview of its functionality
+# Converters
+
+## Overview
 
 At its most basic, `converters` provides a small in-python DSL / declarative mechanism to define transformations operations (”conversions") that allow you to rename, alter, add, clean etc. fields of objects / maps conveniently, making it easy to work with nested structures and a host of other common cases.
 
