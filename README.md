@@ -35,4 +35,7 @@ And to get you started there are already extensions for converting to and from:
 
 ## Why is this useful?
 
-Doing conversions of data (e.g. ingest, exgest) normally seems like a simple job, but naive approaches end up writing a lot of (often one-off) boilerplate and repetitive code that is hard to read and update, inconsistent and error prone, with code often spread throughout several ad hoc functions. Converters provides a single place to put conversions, uses class inheritance to share domain-specific operations, and through that and its maximal approach to features (if we’ve needed it in general we’ve added it to converters) minimizes client boilerplate.
+Doing conversions of data (e.g. ingest, exgest) normally seems like a simple job, but naive approaches end up writing a lot of (often 
+one-off) boilerplate and repetitive code that is hard to read and update, inconsistent and error prone, with code often spread throughout 
+several ad hoc functions. Converters provides a single place to put conversions, uses class inheritance to share domain-specific 
+operations, and through that and its maximal approach to features minimizes client boilerplate.
