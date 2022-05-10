@@ -8,6 +8,8 @@ Here is a quick example of using a subclass of `Converter` to convert from one
 instance to another:
 
 ```py
+from converters import Converter
+
 class MyConverter(Converter):
     from_class = dict
     to_class = dict
@@ -18,6 +20,7 @@ class MyConverter(Converter):
         ('c', NOS, 'a default'),        # to['c'] = 'a default'
         ('d', 'a', lambda x: x * 2),    # to['d'] = from['a'] * 2
         ('e', NOS, dict),               # to['e'] = dict()
+    ]
 
 MyConverter({'a': 1}).convert()
 # yields {'a': 1, 'b': 1, 'c': 'a default', 'd': 2, 'e': {}}
