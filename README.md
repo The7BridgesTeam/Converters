@@ -26,7 +26,7 @@ MyConverter({'a': 1}).convert()
 # yields {'a': 1, 'b': 1, 'c': 'a default', 'd': 2, 'e': {}}
 ```
 
-But that is just the beginning. It's real power comes as you start to nest converters and subclass the core converter class to support different data formats. The power of it is that you can get going with very simple examples, but as your needs grow you’ll find that converters rises to meet them, and are highly extendable for the cases where they don’t.
+But that is just the beginning. Its real power comes as you start to nest converters and subclass the core converter class to support different data formats. The power of it is that you can get going with very simple examples, but as your needs grow you’ll find that converters rises to meet them, and are highly extendable for the cases where they don’t.
 
 And to get you started there are already extensions for converting to and from:
 
