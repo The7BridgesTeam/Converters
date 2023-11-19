@@ -12,12 +12,18 @@ fi
 
 for file in "$base_toml" "$version_file"
 do
-    if [[ ! -e $file ]]
+    if [[ ! -e $file || -d $file ]]
     then
         echo "No such file $base_toml" >&2
         exit 1
     fi
 done
+
+if [[ $base_toml == $output_file ]]
+then
+    echo "Cannot pass the same input file as the output file" >&2
+    exit 1
+fi
 
 cat "$base_toml" |
 while read line
