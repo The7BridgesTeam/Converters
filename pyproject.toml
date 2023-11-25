@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "converters"
 version = "0.1.0"
@@ -5,11 +9,11 @@ description = "Write conversions between python objects using an expressive and 
 authors = ["7bridges <os@the7bridges.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.6.1"
+python = ">=3.8.1,<4"
 pydash = ">=4.9.3"
-# Optional dependencies should go between these markers. When generating a pyproject.toml to install
-# for a particular test dependency combination these are removed and replaced with concrete
-# versions.
+# These are the minimum versions that are supported. To build a file for testing a specific combination
+# of versions use build_versioned_pyproject using one of the pre-defined sets of dependencies in
+# test_version_combinations.
 # TEST VERSIONS INSERTION POINT
 lxml = {version = ">=4.6.3", optional = true}
 python-dateutil = {version = ">=2.8.1", optional = true}
@@ -21,9 +25,9 @@ django-countries = {version = ">=7.1", optional = true}
 py-moneyed = {version = ">=1.2", optional = true}
 # TEST VERSIONS INSERTION POINT END
 
-[tool.poetry.dev-dependencies]
-pytest = ">=6.2.2"
-syrupy = ">=1.2.2"
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0.1"
+syrupy = ">=4.6.0"
 pytest-django = ">=4.2.0"
 pytest-mock = ">=3.6.0"
 
@@ -50,6 +54,7 @@ all = [
     "unidecode"
 ]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.pytest.ini_options]
+pythonpath = ["django-test-site"]
+DJANGO_SETTINGS_MODULE = "django_site.settings"
+addopts = ["--no-migrations", "--doctest-modules"]

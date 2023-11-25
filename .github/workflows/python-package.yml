@@ -16,7 +16,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        # As per https://devguide.python.org/versions/ 3.8 was the oldest still supported version
+        # as of 2023 when I wrote this file.
+        include:
+          - python-version: "3.8" # , "3.10", "3.11"]
+            version-combination-file: "min"
 
     steps:
     - uses: actions/checkout@v3
@@ -26,6 +30,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Poetry install
       run: |
+        bash build_scripts/build_versioned_pyproject test_version_combinations/${{ matrix.version-combination-file }}
         python -m pip install --upgrade pip poetry
         poetry config virtualenvs.in-project true
         poetry install -E all
@@ -36,5 +41,4 @@ jobs:
     #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run pytest
-      run: |
-        poetry run pytest
+      run: poetry run pytest

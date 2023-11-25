@@ -1,35 +1,37 @@
 IN_VERSIONS=0
 
-base_toml=$1
-version_file=$2
-output_file=$3
+version_file=$1
+pyproject_file=pyproject.toml
+backup_pp_file=$pyproject_file.bkup
 
-if [[ -z $output_file ]]
+
+if [[ -z $version_file ]]
 then
-    echo "Usage: $0 <base TOML file> <optional requirements file> <output file>" >&2
+    echo "Usage: $0 <requirements file>" >&2
     exit 1
 fi
 
-for file in "$base_toml" "$version_file"
-do
-    if [[ ! -e $file || -d $file ]]
-    then
-        echo "No such file $base_toml" >&2
-        exit 1
-    fi
-done
-
-if [[ $base_toml == $output_file ]]
+if [[ ! -e $pyproject_file ]]
 then
-    echo "Cannot pass the same input file as the output file" >&2
+    echo "No $pyproject_file!" >&2
     exit 1
 fi
 
-cat "$base_toml" |
-while read line
+mv "$pyproject_file" "$backup_pp_file"
+
+fail () {
+    echo "Failed, reinstating $pyproject_file" >&2
+    mv "$backup_pp_file" "$pyproject_file"
+}
+trap fail EXIT
+
+cat "$backup_pp_file" |
+while IFS=$'\n' read line
 do
     if [[ $line == "# TEST VERSIONS INSERTION POINT" ]]
     then
+        # Preserve the test versions insertion point so that the file can be run
+        echo "$line"
         cat "$version_file"
         IN_VERSIONS=1
     else
@@ -38,9 +40,13 @@ do
             if [[ $line == "# TEST VERSIONS INSERTION POINT END" ]]
             then
                 IN_VERSIONS=0
+                echo "$line"
             fi
             continue
         fi
         echo "$line"
     fi
-done >./"$output_file"
+done >./"$pyproject_file"
+
+trap - EXIT
+rm "$backup_pp_file"
