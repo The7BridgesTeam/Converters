@@ -18,9 +18,7 @@ jobs:
       matrix:
         # As per https://devguide.python.org/versions/ 3.8 was the oldest still supported version
         # as of 2023 when I wrote this file.
-        include:
-          - python-version: "3.8" # , "3.10", "3.11"]
-            version-combination-file: "min"
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -30,7 +28,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Poetry install
       run: |
-        bash build_scripts/build_versioned_pyproject test_version_combinations/${{ matrix.version-combination-file }}
+        bash build_scripts/build_versioned_pyproject ${{ matrix.python-version }}
         python -m pip install --upgrade pip poetry
         poetry config virtualenvs.in-project true
         poetry install -E all
