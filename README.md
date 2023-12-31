@@ -1,4 +1,6 @@
-# Converters
+![Python Package Test and Build](https://github.com/The7BridgesTeam/Converters/actions/workflows/python-package.yml/badge.svg)
+
+# Converters 
 
 ## Overview
 
