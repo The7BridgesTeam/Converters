@@ -1,42 +1,43 @@
+# serializer version: 1
 # name: test_converter_context
-  <class 'dict'> {
+  dict({
     'from_context': 7,
-    'merged_result': <class 'list'> [
-      <class 'dict'> {
+    'merged_result': list([
+      dict({
         'derived_from_context': 36,
         'from_context': 9,
         'not_from_context': 4,
         'val1': 17,
-      },
-    ],
+      }),
+    ]),
     'overridden_by_source': 3,
-    'subs': <class 'list'> [
-      <class 'dict'> {
+    'subs': list([
+      dict({
         'derived_from_context': 28,
         'from_context': 7,
         'not_from_context': 4,
         'val1': 17,
-      },
-    ],
-  }
----
+      }),
+    ]),
+  })
+# ---
 # name: test_converter_context.1
-  <class 'dict'> {
-    'merged_result': <class 'list'> [
-      <class 'dict'> {
+  dict({
+    'merged_result': list([
+      dict({
         'derived_from_context': 36,
         'from_context': 9,
         'not_from_context': 4,
         'val1': 17,
-      },
-    ],
+      }),
+    ]),
     'overridden_by_source': 3,
-    'subs': <class 'list'> [
-      <class 'dict'> {
+    'subs': list([
+      dict({
         'derived_from_context': None,
         'not_from_context': 4,
         'val1': 17,
-      },
-    ],
-  }
----
+      }),
+    ]),
+  })
+# ---

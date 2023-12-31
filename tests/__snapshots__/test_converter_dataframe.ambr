@@ -1,18 +1,19 @@
+# serializer version: 1
 # name: test_csv_multiple_columns
-  <class 'list'> [
-    <class 'dict'> {
-      'cola': <class 'list'> [
+  list([
+    dict({
+      'cola': list([
         'a11',
         'a12',
-      ],
+      ]),
       'colb': 'b11',
-    },
-    <class 'dict'> {
-      'cola': <class 'list'> [
+    }),
+    dict({
+      'cola': list([
         'a21',
         'a22',
-      ],
+      ]),
       'colb': 'b21',
-    },
-  ]
----
+    }),
+  ])
+# ---

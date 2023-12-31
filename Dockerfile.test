@@ -1,8 +1,6 @@
 ARG PYTHON_VERSION
 FROM python:${PYTHON_VERSION}
 
-RUN test -n "${PYTHON_VERSION}" || ! echo "Must pass PYTHON_VERSION as a --build-arg"
-
 ARG POETRY_VERSION
 RUN pip install poetry${POETRY_VERSION:+==}${POETRY_VERSION}
 
@@ -13,21 +11,17 @@ COPY pyproject.toml ./pyproject.toml
 RUN poetry install --no-dev
 
 ARG VERSIONS_FILE
-COPY test_version_combinations/${VERSIONS_FILE} ./version_combination
+RUN test -n "${VERSIONS_FILE}" || ! echo "Must pass VERSIONS_FILE as a --build-arg"
+COPY test_version_combinations/${VERSIONS_FILE} version_combination
 
 RUN mv pyproject.toml pyproject-base.toml
 COPY build_scripts build_scripts
 RUN bash build_scripts/build_versioned_pyproject pyproject-base.toml version_combination pyproject.toml
-RUN poetry update
 RUN poetry install -E all
 
 COPY converters converters
 COPY tests tests
 COPY django-test-site django-test-site
-
-RUN poetry run pytest --version
-RUN whoami
-RUN pwd
 
 ENV PYTHONPATH="django-test-site"
 ENV DJANGO_SETTINGS_MODULE="django_site.settings"
