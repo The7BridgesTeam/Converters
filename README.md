@@ -1,10 +1,18 @@
 ![Python Package Test and Build](https://github.com/The7BridgesTeam/Converters/actions/workflows/python-package.yml/badge.svg?branch=master)
 
-# Converters 
+# Converters
+
+## Install
+
+Install using pip:
+
+```
+pip install python-converters
+```
 
 ## Overview
 
-At its most basic, `converters` provides a small in-python DSL / declarative mechanism to define transformations operations (”conversions") that allow you to rename, alter, add, clean etc. fields of objects / maps conveniently, making it easy to work with nested structures and a host of other common cases.
+At its most basic, **Converters** provides a small in-python DSL / declarative mechanism to define transformations operations (”conversions") that allow you to rename, alter, add, clean etc. fields of objects / maps conveniently, making it easy to work with nested structures and a host of other common cases.
 
 Here is a quick example of using a subclass of `Converter` to convert from one
 instance to another:
@@ -16,7 +24,7 @@ class MyConverter(Converter):
     from_class = dict
     to_class = dict
 
-    converter_copy_attrs = [
+    conversions = [
         'a',                            # to['a'] = from['a']
         ('b', 'a'),                     # to['b'] = from['a']
         ('c', NOS, 'a default'),        # to['c'] = 'a default'
