@@ -3,10 +3,19 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "converters"
-version = "0.1.0"
+name = "python-converters"
+version = "0.1.1"
 description = "Write conversions between python objects using an expressive and declarative class-based API"
-authors = ["7bridges <os@the7bridges.com>"]
+authors = [
+    "7bridges <os@the7bridges.com>",
+    "David Park <david@greenparksoftware.co.uk>",
+]
+readme = "README.md"
+license = "Apache-2.0"
+repository = "https://github.com/The7BridgesTeam/Converters"
+packages = [
+    { include = "converters" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4"
