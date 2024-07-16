@@ -40,6 +40,10 @@ syrupy = ">=4.6.0"
 pytest-django = ">=4.2.0"
 pytest-mock = ">=3.6.0"
 
+# Sphinx dependencies also in docs/requirements.txt for read the docs to pick up.
+sphinx = ">=7.1.2"
+sphinx-rtd-theme = ">=1.3.0"
+
 [tool.poetry.extras]
 # ℹ️ if you update any of these, be sure to update "all = [...]" as well, so that it's easy to get
 # all dependencies for testing. You can install any one of these sets using e.g.

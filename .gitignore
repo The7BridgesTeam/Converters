@@ -5,3 +5,6 @@ __pycache__
 # Ignore poetry lock because there isn't just one poetry lock for the module as multiple versions
 # of dependencies are supported.
 poetry.lock
+
+docs/source/_generated_api
+docs/build

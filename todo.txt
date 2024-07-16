@@ -1,0 +1,27 @@
+# Docs
+
+- Sidebar should look like this ✅:
+      Overview
+      API reference
+        - converters
+          - converters.Converter
+          - converters.DictConverter
+          - converters.NOS
+
+- Builds on readthedocs.org
+- Way to avoid duplication in README.rst ✅
+- Using :py:class:`~converters.Converter` in index.rst does not link to the correct place ✅
+
+
+Tidy up list:
+
+- NOS should be Module attribute only
+
+
+
+# Code
+
+- get rid of DictConverter make Converter just be DictConverter
+    - rename DataFrameToDictConverter to DataFrameConverter
+    - 
+- don't do `from_class` type checking by default
